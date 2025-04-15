@@ -31,10 +31,3 @@ netsh advfirewall firewall add rule name="Allow Ping" protocol=ICMPv4 dir=in act
 Write-Host "Removing Password expiration..." -ForegroundColor Yellow
 net accounts /maxpwage:unlimited
 
-#Clear downloads folder
-Write-Host "Cleaning downloads Folder" -ForegroundColor Yellow
-rm $dl\* -Force
-
-# Copy Everything From the \installers folder to \downloads folder
-cp Z:\installers $dl
-
