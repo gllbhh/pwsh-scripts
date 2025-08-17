@@ -33,11 +33,15 @@ foreach ($Computer in $SelectedComputers) {
         Write-Host "$Computer is online. Running script..."
 
         try {
-            Invoke-Command -ComputerName $Computer -Credential $Credential -ScriptBlock {
-                Stop-Process -Name explorer -Force
+            $session = New-PSSession -ComputerName $Computer -Credential $Credential
+
+            Invoke-Command -Session $session -ScriptBlock {
+                Stop-Process -Name explorer -Force -ErrorAction SilentlyContinue
                 Start-Process explorer
                 cmd.exe /c "C:\Users\lab_user\Desktop\resetRemote.bat"
-            } -Authentication Default
+            }
+
+            Remove-PSSession $session
             Write-Host "Successfully executed script on $Computer"
         } catch {
             Write-Host "Failed to execute script on $Computer. Error: $_"
